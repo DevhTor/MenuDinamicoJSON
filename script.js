@@ -1,7 +1,62 @@
-var qrData = document.getElementById('qr-data');
-var qrCode = new QRCode(document.getElementById('qr-code'));
+var _menu = document.querySelector('#menu');
 
-function generateQR()
+
+
+fetch('menu.json')
+  .then(res => res.json())
+  .then(datos => {Menu(datos)});
+
+function Menu(p_datos)
 {
-    qrCode.makeCode(qrData.value);
+    var cont = 0;
+
+    var hijo = ``;
+
+    for(let valor of p_datos)
+    {
+        var hijo = ``;
+
+        if(cont == 0)
+        {
+            cont = valor.hijos.length;
+        }
+
+        while(cont > 0)
+        {
+            hijo += 
+            `
+                <ul>
+                    <li>
+                        <a href="#">${ valor.hijos[cont-1].titulo}</a>
+                    </li>
+
+                </ul>
+            `;
+
+            cont --;
+        }
+        
+        
+        _menu.innerHTML += 
+        `
+        
+            <li>
+                <a href="#">${ valor.titulo }</a>
+                
+                <div> ${hijo} </div>                    
+            </li>
+                
+        ` ;
+        
+        
+        
+    }
 }
+
+
+
+
+
+
+
+
